@@ -10,6 +10,8 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Revolution\NotificationChannels\Chatwork\ChatworkChannel;
 use Revolution\NotificationChannels\Chatwork\ChatworkInformation;
 
+use Illuminate\Notifications\Messages\SlackMessage;
+
 class AdSenseNotification extends Notification
 {
     use Queueable;
@@ -40,7 +42,7 @@ class AdSenseNotification extends Notification
      */
     public function via($notifiable)
     {
-        return [ChatworkChannel::class];
+        return [ChatworkChannel::class, 'slack'];
     }
 
     public function toChatwork($notifiable)
@@ -53,10 +55,29 @@ class AdSenseNotification extends Notification
             'EARNINGS : ' . $this->reports->totals[4],
         ];
 
-        return (new ChatworkInformation())->token(config('ads.cw_token'))
-                                          ->roomId(config('ads.cw_room'))
-                                          ->informationTitle($title)
+        return (new ChatworkInformation())->informationTitle($title)
                                           ->informationMessage(implode(PHP_EOL, $message));
+    }
+
+    /**
+     * @param  mixed $notifiable
+     *
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        $title = $this->reports->endDate;
+
+        return (new SlackMessage)->success()
+                                 ->content($title)
+                                 ->attachment(function ($attachment) {
+                                     $attachment->fields([
+                                         'PAGE_VIEWS'     => $this->reports->totals[1],
+                                         'CLICKS'         => $this->reports->totals[2],
+                                         'EARNINGS'       => $this->reports->totals[4],
+                                         'COST_PER_CLICK' => $this->reports->totals[3],
+                                     ]);
+                                 });
     }
 
     /**

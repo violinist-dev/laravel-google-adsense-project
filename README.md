@@ -5,7 +5,7 @@ https://developers.google.com/adsense/management/
 AdSenseパッケージを作ろうかと思ったけど意外と多機能なので保留中。  
 https://github.com/google/google-api-php-client-services/tree/master/src/Google/Service/AdSense
 
-レポートをChatWorkに通知するだけのデモ。
+レポートをChatWork/Slackに通知するだけのデモ。
 
 web側からは何もない。
 

@@ -8,7 +8,7 @@ use PulkitJalan\Google\Facades\Google;
 
 use App\Notifications\AdSenseNotification;
 
-use App\User;
+use Notification;
 
 class AdSense extends Command
 {
@@ -77,6 +77,9 @@ class AdSense extends Command
         $reports = $ads->reports->generate($startDate, $endDate, $optParams)->toSimpleObject();
         //        dd($reports);
 
-        (new User)->notify(new AdSenseNotification($reports));
+        Notification::route('chatwork', config('ads.cw_room'))
+                    ->route('chatwork-token', config('ads.cw_token'))
+                    ->route('slack', config('ads.slack_webhook'))
+                    ->notify(new AdSenseNotification($reports));
     }
 }
