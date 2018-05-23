@@ -54,7 +54,7 @@ class AdSense extends Command
 
         Google::fetchAccessTokenWithRefreshToken();
 
-        $ads = Google::make('adsense');
+        $ads = Google::make('AdSense');
 
         $startDate = 'today-1d';
         $endDate = 'today-1d';
