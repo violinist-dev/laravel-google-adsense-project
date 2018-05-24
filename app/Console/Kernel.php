@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(Commands\AdSense::class)
-                 ->dailyAt('09:00');
+                 ->dailyAt('09:30');
     }
 
     /**

@@ -45,6 +45,11 @@ class AdSenseNotification extends Notification
         return [ChatworkChannel::class, 'slack'];
     }
 
+    /**
+     * @param mixed $notifiable
+     *
+     * @return ChatworkInformation
+     */
     public function toChatwork($notifiable)
     {
         $title = $this->reports->endDate;
@@ -55,8 +60,8 @@ class AdSenseNotification extends Notification
             'EARNINGS : ' . $this->reports->totals[4],
         ];
 
-        return (new ChatworkInformation())->informationTitle($title)
-                                          ->informationMessage(implode(PHP_EOL, $message));
+        return (new ChatworkInformation)->informationTitle($title)
+                                        ->informationMessage(implode(PHP_EOL, $message));
     }
 
     /**
