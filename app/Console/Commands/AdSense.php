@@ -56,8 +56,8 @@ class AdSense extends Command
 
         $ads = Google::make('AdSense');
 
-        $startDate = now()->subDay()->toDateString();
-        $endDate = now()->subDay()->toDateString();
+        $startDate = 'today-1d';
+        $endDate = 'today-1d';
 
         $optParams = [
             'metric'    => [
