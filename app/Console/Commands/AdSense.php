@@ -80,6 +80,7 @@ class AdSense extends Command
         Notification::route('chatwork', config('ads.cw_room'))
                     ->route('chatwork-token', config('ads.cw_token'))
                     ->route('slack', config('ads.slack_webhook'))
+                    ->route('discord', config('ads.discord_channel'))
                     ->notify(new AdSenseNotification($reports));
     }
 }

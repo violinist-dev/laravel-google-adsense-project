@@ -12,6 +12,9 @@ use Revolution\NotificationChannels\Chatwork\ChatworkInformation;
 
 use Illuminate\Notifications\Messages\SlackMessage;
 
+use NotificationChannels\Discord\DiscordChannel;
+use NotificationChannels\Discord\DiscordMessage;
+
 class AdSenseNotification extends Notification
 {
     use Queueable;
@@ -42,7 +45,7 @@ class AdSenseNotification extends Notification
      */
     public function via($notifiable)
     {
-        return [ChatworkChannel::class, 'slack'];
+        return [ChatworkChannel::class, 'slack', DiscordChannel::class];
     }
 
     /**
@@ -83,6 +86,40 @@ class AdSenseNotification extends Notification
                                          'COST_PER_CLICK' => $this->reports->totals[3],
                                      ]);
                                  });
+    }
+
+    /**
+     * @param $notifiable
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($notifiable)
+    {
+        $title = $this->reports->endDate;
+
+        $embed = [
+            'title'  => $title,
+            'fields' => [
+                [
+                    'name'  => 'PAGE_VIEWS',
+                    'value' => $this->reports->totals[1],
+                ],
+                [
+                    'name'  => 'EARNINGS',
+                    'value' => $this->reports->totals[4],
+                ],
+                [
+                    'name'  => 'CLICKS',
+                    'value' => $this->reports->totals[2],
+                ],
+                [
+                    'name'  => 'COST_PER_CLICK',
+                    'value' => $this->reports->totals[3],
+                ],
+            ],
+        ];
+
+        return DiscordMessage::create('', $embed);
     }
 
     /**
