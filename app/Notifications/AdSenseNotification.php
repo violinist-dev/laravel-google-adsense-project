@@ -106,11 +106,6 @@ class AdSenseNotification extends Notification
                     'inline' => true,
                 ],
                 [
-                    'name'   => 'EARNINGS',
-                    'value'  => $this->reports->totals[4],
-                    'inline' => true,
-                ],
-                [
                     'name'   => 'CLICKS',
                     'value'  => $this->reports->totals[2],
                     'inline' => true,
@@ -118,6 +113,11 @@ class AdSenseNotification extends Notification
                 [
                     'name'   => 'COST_PER_CLICK',
                     'value'  => $this->reports->totals[3],
+                    'inline' => true,
+                ],
+                [
+                    'name'   => 'EARNINGS',
+                    'value'  => $this->reports->totals[4],
                     'inline' => true,
                 ],
             ],
